@@ -5,3 +5,4 @@ Currently practicing: JavaScript, Ruby
   
 ## Recently completed
 * Friend or Foe? *(Javascript)*
+* +1 Array *(Javascript)*
