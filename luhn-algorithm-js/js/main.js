@@ -47,37 +47,33 @@ function valid(string){
   // remove spaces from string and convert to num
   const joinedStr = string.split(' ').join('')
 
-  let newNum = []
-  // create a loop that only loop through every second number
-  for (let i = 0; i < joinedStr.length; i++) {
-    let num = Number(joinedStr[i])
-
-    // if its every second number * 2. if its more than 9 then minus 9 from it
-    if (i % 2 === 0){
-      if (num * 2 > 9){
-        
-        newNum.push(num * 2 - 9)
-      } else {
-        newNum.push(num * 2)
-      }
-      
-    } else {
-      newNum.push(num)
-    }
-
+  if (joinedStr.length <= 1){
+    return false
   }
 
-  console.log(newNum)
+  const newNum = joinedStr.split('').map( el => Number(el))
+
+  for (let i = newNum.length - 2; i >= 0 ; i -= 2) {
+    
+    if (newNum[i] * 2 > 9){
+      newNum[i] = newNum[i] * 2 - 9
+    } else {
+      newNum[i] *= 2
+    }
+  }
 
   // sum up the total
   let total = newNum.reduce( (prevValue, currentValue) => (
     prevValue + currentValue
   ), 0)
 
+  console.log(total)
+
   return total % 10 === 0 ? 'valid' : 'invalid'
 
 }
 
+
 console.log(valid('4539 3195 0343 6467'))
 console.log(valid('8273 1232 7352 0569'))
-console.log(valid(' 0'))
+console.log(valid('055 444 285'))
