@@ -7,3 +7,4 @@ Currently practicing: JavaScript, Ruby
 * Friend or Foe? *(Javascript)*
 * +1 Array *(Javascript)*
 * Luhn Algorithm *(Javascript)*
+* Vowel Count *(Ruby)*
