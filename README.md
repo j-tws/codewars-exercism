@@ -8,3 +8,7 @@ Currently practicing: JavaScript, Ruby
 * +1 Array *(Javascript)*
 * Luhn Algorithm *(Javascript)*
 * Vowel Count *(Ruby)*
+* X's & O's *(Ruby)*
+* Move Zeroes *(Ruby)*
+* Spinning Words  *(Ruby)*
+* Valid Parenthesis *(Ruby)*
