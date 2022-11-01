@@ -59,12 +59,13 @@ class BankAccount extends Bank {
     }
 
     this._balance -= amount
-    return `You withdrew $${amount}, your balance is now $${this._balance}`
+    return `You withdrew $${amount}, your new balance is now $${this._balance}`
 
   }
 
   deposit(amount){
     this._balance += amount
+    return `You deposited $${amount}, your new balance is now $${this._balance}`
   
   }
 
