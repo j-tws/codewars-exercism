@@ -48,42 +48,79 @@ require 'pry'
 
 def dirReduc(arr)
   
-  north_count = arr.count "NORTH"
-  south_count = arr.count "SOUTH"
-  east_count = arr.count "EAST"
-  west_count = arr.count "WEST"
+  #---------N/A SOLUTION----------#
+  # north_count = arr.count "NORTH"
+  # south_count = arr.count "SOUTH"
+  # east_count = arr.count "EAST"
+  # west_count = arr.count "WEST"
 
-  north_south_diff = north_count - south_count
-  east_west_diff = east_count - west_count
+  # north_south_diff = north_count - south_count
+  # east_west_diff = east_count - west_count
+
+  # directions = []
+
+  # if north_south_diff < 0 
+  #   north_south_diff.abs.times do 
+  #     directions << "SOUTH"
+  #   end
+  # elsif north_south_diff > 0
+  #   north_south_diff.times do
+  #     directions << "NORTH"
+  #   end
+  # end
+
+  # if east_west_diff < 0 
+  #   east_west_diff.abs.times do 
+  #     directions << "WEST"
+  #   end
+  # elsif east_west_diff > 0
+  #   east_west_diff.times do
+  #     directions << "EAST"
+  #   end
+  # end
+
+  # directions
+
+  #-------MY SOLUTION----------#
+  # 50.times do
+
+  #   arr.each_with_index do |dir, i|
+      
+  #     if arr[i] == "NORTH" && arr[i+1] == "SOUTH" || arr[i] == "SOUTH" && arr[i+1] == "NORTH"
+  #       arr.slice! i..i+1
+  #     elsif arr[i] == "EAST" && arr[i+1] == "WEST" || arr[i] == "WEST" && arr[i+1] == "EAST"
+  #       arr.slice! i..i+1
+  #     end
+
+  #   end
+
+  # end
+
+  # arr
+
+  #-----MY SOLUTION ENDS-----------#
+
+  opposite = {
+    'NORTH' => 'SOUTH',
+    'SOUTH' => 'NORTH',
+    'EAST' => 'WEST',
+    'WEST' => 'EAST'
+  }
 
   directions = []
 
-  if north_south_diff < 0 
-    north_south_diff.abs.times do 
-      directions << "SOUTH"
-    end
-  elsif north_south_diff > 0
-    north_south_diff.times do
-      directions << "NORTH"
-    end
-  end
-
-  if east_west_diff < 0 
-    east_west_diff.abs.times do 
-      directions << "WEST"
-    end
-  elsif east_west_diff > 0
-    east_west_diff.times do
-      directions << "EAST"
-    end
+  arr.each do |dir|
+    opposite[dir] == directions.last ? directions.pop : directions.push(dir)
   end
 
   directions
 
 end
 
-# p dirReduc(["NORTH", "SOUTH", "SOUTH", "EAST", "WEST", "NORTH", "WEST"])
+p dirReduc(["NORTH", "SOUTH", "SOUTH", "EAST", "WEST", "NORTH", "WEST"])
 p dirReduc(["NORTH", "SOUTH", "SOUTH", "EAST"])
+p dirReduc(["NORTH", "WEST", "SOUTH", "EAST"])
+# p dirReduc(["SOUTH", "NORTH", "SOUTH", "EAST"])
 # p dirReduc(["WEST", "EAST", "EAST"])
 # p dirReduc(["NORTH", "SOUTH", "WEST", "EAST"])
 
