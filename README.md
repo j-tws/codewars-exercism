@@ -12,3 +12,6 @@ Currently practicing: JavaScript, Ruby
 * Move Zeroes *(Ruby)*
 * Spinning Words  *(Ruby)*
 * Valid Parenthesis *(Ruby)*
+* Directions Reductions *(Ruby)*
+* Narcissist Number *(Javascript)*
+* Odd Integers *(Ruby)*
