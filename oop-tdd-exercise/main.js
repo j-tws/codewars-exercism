@@ -1,4 +1,4 @@
-import './style.css'
+
 // import javascriptLogo from './javascript.svg'
 // import { setupCounter } from './counter.js'
 
@@ -23,12 +23,15 @@ import './style.css'
 
 console.log('exercise loaded')
 
+let id = 0
+
 // Create class Bank as parent class 
 class Bank {
-  constructor(customerName, balance) {
-    this._customerName = customerName,
-    this._balance = balance,
-    this._accountNum = `BANKACCNO-${Math.floor(Math.random() * 10000)}`
+  constructor(){
+    this._customerName = null
+    this._balance = 0
+    // this._accountNum = `BANKACCNO-${Math.floor(Math.random() * 10000)}`
+    this._accountNum = `BANKACC-${id++}`
   }
 
   get customerName(){
@@ -43,48 +46,67 @@ class Bank {
     return this._accountNum
   }
 
-
 }
 
 // class BankAccount as child class of Bank class
 class BankAccount extends Bank {
-  constructor(customerName, balance) {
-    super(customerName, balance);
+  constructor() {
+    super();
+  }
+
+  setName(name){
+
+    if (name.length == 0){
+      throw "Name cannot be empty"
+    } else if ( /\d/.test(name) ){
+      throw "Name cannot contain numbers"
+    }
+
+    this._customerName = name
   }
 
   withdraw(amount){
-    
-    if (this._balance < amount){
-      return `You are withdrawing $${amount} from your account with $${this._balance}. You got no money`
+
+    if (!this._customerName){
+      throw "Please set name before accessing account methods"
     }
 
+    if (amount < 0){
+      throw "Negative values can't be used"
+    } else if (this._balance < amount){
+      throw `You are withdrawing $${amount} from your account with $${this._balance}. You got no money`
+    }
+    
     this._balance -= amount
     return `You withdrew $${amount}, your new balance is now $${this._balance}`
 
   }
 
   deposit(amount){
+    
+    if (!this._customerName){
+      throw "Please set name before accessing account methods"
+    }
+
     this._balance += amount
     return `You deposited $${amount}, your new balance is now $${this._balance}`
   
   }
 
-  changeName(newName){
-    this._customerName = newName
-  }
-
 }
 
-const testAcc = new BankAccount('John', 5000)
-
+const testAcc = new BankAccount()
+testAcc.setName("John")
 console.log(testAcc.customerName)
-console.log(testAcc.balance)
 
-testAcc.deposit(500)
-console.log(testAcc.withdraw(2000))
-console.log(testAcc.withdraw(5000))
-// testAcc.withdraw(1000)
-// testAcc.withdraw(10000)
+// console.log(testAcc.customerName)
 // console.log(testAcc.balance)
+
+// testAcc.deposit(500)
+// console.log(testAcc.withdraw(2000))
+// console.log(testAcc.withdraw(5000))
+
+
+module.exports = BankAccount
 
 
