@@ -21,17 +21,55 @@
 //     - Account Number must be unique
 
 
+
+/* 
+  Problems:
+- Bank can only hold 1 account. What about another customer?
+- The bank object shouldn't be storing the customer name & balance. That's for the bankAccount
+- Returns are inconsistently returning an error / a string
+  - throw is not ideal
+  - OOP task should return objects. Task says - You should respond with an object indicating transaction success / failure
+
+- Tests
+  - All sad path, no happy path
+  - Insufficient coverage for the question.
+  - check name, balance?
+*/
+
+
 console.log('exercise loaded')
 
-let id = 0
 
 // Create class Bank as parent class 
 class Bank {
-  constructor(){
-    this._customerName = null
+  constructor() {
+    this.accountNum = 0
+    this._accounts = {}
+  }
+
+  get accounts(){
+    return this._accounts
+  }
+  
+  newAcc(customerName){
+    let accountNum = `BANKACC-${this.accountNum++}`
+    this.accounts[accountNum] = new BankAccount(customerName, accountNum)
+    return this.accounts[accountNum]
+  }
+
+  deleteAcc(accountNum){
+    delete this._accounts[accountNum]
+  }
+
+}
+
+// class BankAccount as child class of Bank class
+class BankAccount {
+  constructor(customerName, accountNum) {
+    this._customerName = customerName
     this._balance = 0
-    // this._accountNum = `BANKACCNO-${Math.floor(Math.random() * 10000)}`
-    this._accountNum = `BANKACC-${id++}`
+    this._accountNum = accountNum
+    this._overdraft = 0
   }
 
   get customerName(){
@@ -46,12 +84,12 @@ class Bank {
     return this._accountNum
   }
 
-}
+  get overdraft(){
+    return this._overdraft
+  }
 
-// class BankAccount as child class of Bank class
-class BankAccount extends Bank {
-  constructor() {
-    super();
+  setOverdraft(amount){
+    this._overdraft = amount
   }
 
   setName(name){
@@ -66,28 +104,29 @@ class BankAccount extends Bank {
   }
 
   withdraw(amount){
-
-    if (!this._customerName){
-      throw "Please set name before accessing account methods"
+    let response = {
+      success: false
     }
 
     if (amount < 0){
-      throw "Negative values can't be used"
-    } else if (this._balance < amount){
-      throw `You are withdrawing $${amount} from your account with $${this._balance}. You got no money`
+      response.errorMessage =  "Negative values can't be used"
+    } else if (amount > this._balance - this._overdraft){
+      response.errorMessage = "You passed your overdraft limit"
+    }
+
+    if (response.errorMessage){
+      return response
     }
     
     this._balance -= amount
-    return `You withdrew $${amount}, your new balance is now $${this._balance}`
+    response.success = true
+    response.successMessage = `You withdrew $${amount}, your new balance is now $${this._balance}`
+    return response
 
   }
 
   deposit(amount){
     
-    if (!this._customerName){
-      throw "Please set name before accessing account methods"
-    }
-
     this._balance += amount
     return `You deposited $${amount}, your new balance is now $${this._balance}`
   
@@ -95,17 +134,17 @@ class BankAccount extends Bank {
 
 }
 
-const testAcc = new BankAccount()
-testAcc.setName("John")
-console.log(testAcc.customerName)
+const bank = new Bank()
+const accountOne = bank.newAcc('Justin')
+const accountPip = bank.newAcc('Pip')
+accountOne.setOverdraft(-200)
+accountPip.setOverdraft(-500)
+// console.log(accountOne.overdraft);
+console.log(accountOne.withdraw(50))
 
-// console.log(testAcc.customerName)
-// console.log(testAcc.balance)
-
-// testAcc.deposit(500)
-// console.log(testAcc.withdraw(2000))
-// console.log(testAcc.withdraw(5000))
-
+bank.deleteAcc(accountOne.accountNum)
+console.log(bank.accounts)
+console.log(accountOne)
 
 module.exports = BankAccount
 
