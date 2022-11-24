@@ -15,3 +15,7 @@ Currently practicing: JavaScript, Ruby
 * Directions Reductions *(Ruby)*
 * Narcissist Number *(Javascript)*
 * Odd Integers *(Ruby)*
+* Array Difference *(Javascript)*
+* Sum of Digits *(Javascript)*
+* RGB to Hex *(Ruby)*
+* Simple Banking *(Javascript)*
