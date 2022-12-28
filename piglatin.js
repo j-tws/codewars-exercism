@@ -24,6 +24,12 @@ const pigLatin = (string) => {
 
 }
 
+const translate = (sentence) => {
+  const translated = sentence.split(' ').map(word => pigLatin(word)).join(' ')
+  return translated
+}
+
+// tests log
 console.log(pigLatin('apple'))
 console.log(pigLatin('hello'))
 console.log(pigLatin('chair'))
@@ -33,3 +39,4 @@ console.log(pigLatin('xenon'))
 console.log(pigLatin('yttria'))
 console.log(pigLatin('rhythm'))
 console.log(pigLatin('quick'))
+console.log(translate('quick fast run'));
