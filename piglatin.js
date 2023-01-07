@@ -40,3 +40,8 @@ console.log(pigLatin('yttria'))
 console.log(pigLatin('rhythm'))
 console.log(pigLatin('quick'))
 console.log(translate('quick fast run'));
+
+for (let index = 0; index < array.length; index++) {
+  const element = array[index];
+  
+}
