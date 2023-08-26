@@ -49,22 +49,57 @@ const rows = (alphabet) => {
 
   const index = alphabets.indexOf(alphabet)
   const filtered = alphabets.filter(a => alphabets.indexOf(a) <= index)
-  const newArr = [...filtered, ...filtered.reverse().slice(1)]
+  const alphabetsArr = [...filtered, ...filtered.reverse().slice(1)]
 
-  const result = newArr.map((a) => {
+  const result = alphabetsArr.map((a) => {
     if (a === 'A'){
-      const numberOfDots = Math.ceil((newArr.length - 1) / 2)
+      const numberOfDots = Math.ceil((alphabetsArr.length - 1) / 2)
       return `${'·'.repeat(numberOfDots)}A${'·'.repeat(numberOfDots)}`
     }
 
-    const odds = alphabets.map((a) => alphabets.indexOf(a) * 2 - 1)
+    const alphabetToOddNum = alphabets.map((a) => alphabets.indexOf(a) * 2 - 1)
 
-    const dotsOnMiddle = '·'.repeat(odds[alphabets.indexOf(a)])
-    const dotsOnSide = '·'.repeat(Math.ceil((newArr.length - 2 - dotsOnMiddle.length) / 2))
+    const dotsOnMiddle = '·'.repeat(alphabetToOddNum[alphabets.indexOf(a)])
+    const dotsOnSide = '·'.repeat(Math.ceil((alphabetsArr.length - 2 - dotsOnMiddle.length) / 2))
     return `${dotsOnSide}${a}${dotsOnMiddle}${a}${dotsOnSide}`
   })
 
   return result
 };
 
-console.log(rows('Z'))
+// console.log(rows('Z'))
+
+// const twoSum = (nums, target) => {
+//   // for (let i = 0; i < nums.length; i++) {
+//   //   for (let j = i + 1; j < nums.length; j++) {
+//   //     if (nums[i] + nums[j] === target){
+//   //       return [i, j]
+//   //     }
+//   //   }
+//   // }
+
+//   // O(N) solution
+//   const obj = {}
+
+//   for (let i = 0; i < nums.length; i++) {
+//     const diff = target - nums[i]
+
+//     if (diff in obj) return [obj[diff], i]
+
+//     obj[nums[i]] = i
+//     console.log(obj)
+//   }
+// }
+
+// console.log(twoSum([2,8,11,7], 9))
+
+
+
+const checkIsPrime = (num) => {
+  for (let i = 2; i < num; i++) {
+    if(num % i === 0) return false
+  }
+  return true
+}
+
+console.log(checkIsPrime(5))
