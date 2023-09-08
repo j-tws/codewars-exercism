@@ -41,66 +41,49 @@ const VALID_OPTIONS = [
 
 const ARGS = process.argv;
 
-//
-// This is only a SKELETON file for the 'Grep' exercise. It's been provided as a
-// convenience to get you started writing code faster.
-//
-// This file should *not* export a function. Use ARGS to determine what to grep
-// and use console.log(output) to write to the standard output.
-
-
 const args = ARGS.slice(2)
 const files = args.filter(arg => /.txt/.test(arg))
 const pattern = args.filter(arg => !VALID_OPTIONS.includes(arg) || /.txt/.test(arg))[0]
 const flagsInput = args.filter(arg => VALID_OPTIONS.includes(arg))
 
-const output = (flags, files, pattern) => {
-  const fileObj = {}
+const transformFiles = (files) => {
+  return files.reduce((acc, curr) => {
+    return ({ ...acc, [curr]: readLines(curr)})
+  }, {})
+}
 
-  files.forEach(file => {
-    fileObj[file] = readLines(file)
-  })
+const processMatchLogic = (line, pattern, flags) => {
+  const processedLine = flags.includes('-i') ? line.toLowerCase() : line
+  const processedPattern = flags.includes('-i') ? pattern.toLowerCase() : pattern
+  const matchCondition = flags.includes('-x') ? processedLine === processedPattern : processedLine.includes(processedPattern)
+  const finalMatch = flags.includes('-v') ? !matchCondition : matchCondition
+
+  return finalMatch
+}
+
+const logMessage = (hasNFlag, files, index, file, line) => {
+  const logWithIndex = hasNFlag ? `${index + 1}:` : ''
+  const logWithFileName = files.length > 1 ? `${file}:` : ''
+  
+  console.log(`${logWithFileName}${logWithIndex}${line}`)
+}
+
+const grepOutput = (flags, files, pattern) => {
+  const fileObj = transformFiles(files)
 
   for (const file in fileObj){
     for (let i = 0; i < fileObj[file].length; i++) {
-      let currentLine = fileObj[file][i]
-      let searchString = pattern
-      
-      if (flags.includes('-i')){
-        currentLine = currentLine.toLowerCase()
-        searchString = pattern.toLowerCase()
+      const currentLine = fileObj[file][i]
+      const foundMatch = processMatchLogic(currentLine, pattern, flags)
+
+      if (flags.includes('-l') && foundMatch){
+        console.log(file)
+        break
       }
 
-      let ifLineIncludesPattern = currentLine.includes(searchString)
-
-      if (flags.includes('-x')){
-        ifLineIncludesPattern = currentLine === searchString
-      }
-      
-      if (flags.includes('-v')){
-        ifLineIncludesPattern = !ifLineIncludesPattern
-      }
-
-      if (flags.includes('-l')){
-        if (ifLineIncludesPattern){
-          console.log(file)
-          break
-        }
-      }
-
-      if (ifLineIncludesPattern){
-        if (Object.keys(fileObj).length > 1 && flags.includes('-n')){
-          console.log(`${file}:${i+1}:${fileObj[file][i]}`)
-        } else if (Object.keys(fileObj).length > 1) {
-          console.log(`${file}:${fileObj[file][i]}`)
-        } else if (flags.includes('-n')){
-          console.log(`${i+1}:${fileObj[file][i]}`)
-        } else {
-          console.log(fileObj[file][i])
-        }
-      }
+      if (foundMatch) logMessage(flags.includes('-n'), files, i, file, currentLine)
     }
   }
 }
 
-output(flagsInput, files, pattern)
+grepOutput(flagsInput, files, pattern)
